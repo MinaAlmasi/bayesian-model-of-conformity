@@ -25,11 +25,28 @@ Bayes_Agent <- function(rating_participant, rating_group, weight_p, weight_g) {
 }
 
 simulate_bayes <- function(weight_p, weight_g){
-    ratings_participant <- sample(c(1:8), 100, replace=TRUE, prob=c(1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8))
+    # simulate participant ratings
+    rating_participant <- sample(c(1:8), 1, replace=TRUE, prob=c(1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8))
+    
+    # set an initial invalid value for the group rating
+    rating_group <- -1
 
-    sample()
+    # iterate until the group rating is valid
+    while (rating_group < 1 | rating_group > 8) {
+        # draw a feedback (from -3 to 3 but no 1s as in the real experiment)
+        feedback <- sample(c(-3,-2,0,2,3), 1, replace=TRUE, prob=c(0.2, 0.2, 0.2, 0.2, 0.2))
 
+        # determine group rating
+        rating_group <- rating_participant + feedback
+    }
+
+    # calculate the second rating (for the participant)
+    second_rating <- Bayes_Agent(rating_participant, rating_group, weight_p, weight_g)
+
+    return(list(rating_participant = rating_participant, rating_group = rating_group, second_rating = second_rating))
 }
 
 rating = Bayes_Agent(rating_participant = 7, rating_group = 1, weight_p = 0.8, weight_g = 0.2)
 print(rating)
+
+simulate_bayes(weight_p = 0.8, weight_g = 0.2)
