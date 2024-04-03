@@ -41,8 +41,8 @@ generated quantities{
 
     // save priors 
     bias_prior = normal_rng(0, 1) ;
-    Weight_first_prior = beta_lpdf(Weight_first | 1, 1);
-    Weight_group_prior = beta_lpdf(Weight_group | 1, 1);
+    Weight_first_prior = beta_rng(Weight_first | 1, 1);
+    Weight_group_prior = beta_rng(Weight_group | 1, 1);
   
     // save likelihood
     for (Trial in 1:Trials){
