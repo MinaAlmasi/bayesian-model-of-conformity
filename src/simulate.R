@@ -56,14 +56,14 @@ weight_f = 0.1
 bias = 0
 
 # initialize the data frame
-simulated_data <- data.frame(matrix(ncol=7, nrow=n_trials))
-colnames(simulated_data) <- c("FirstRating", "GroupRating", "SecondRating", "Choice", "Bias", "Weight_first", "Weight_group")
+simulated_data <- data.frame(matrix(ncol=8, nrow=n_trials))
+colnames(simulated_data) <- c("Trials", "FirstRating", "GroupRating", "SecondRating", "Choice", "Bias", "Weight_first", "Weight_group")
 
 print("Simulating and saving data...")
 # simulate the data
 for (i in 1:n_trials) {
     result <- simulate_bayes(bias, weight_f, weight_g)
-    simulated_data[i,] <- c(result$FirstRating, result$GroupRating, result$SecondRating, result$Choice, result$Bias, weight_f, weight_g)
+    simulated_data[i,] <- c(i, result$FirstRating, result$GroupRating, result$SecondRating, result$Choice, result$Bias, weight_f, weight_g)
 }
 
 # save 
