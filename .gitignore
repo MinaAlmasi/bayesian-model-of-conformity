@@ -50,3 +50,7 @@ rsconnect/
 
 # MAC
 .DS_Store
+
+# stan folder - ign everything but the stan files (i.e., ign. C++ compiled files)
+stan/*
+!stan/*.stan
