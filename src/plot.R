@@ -43,7 +43,7 @@ posterior_update_plot <- function(posterior_samples, param_true, param_col, titl
 }
 
 ## WEIGHTED BAYES ##
-weighted_samples <- readRDS(here::here("data", "model_quality", "weighted_samples.rds"))
+weighted_samples <- readRDS(here::here("data", "simulated_samples", "weighted_samples.rds"))
 weighted_df <- read_csv(here::here("data", "simulated_data_weighted.csv"))
 
 group_weight_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Weight_group[1], param_col = "Weight_group", "Group Rating Weight (Weighted Bayes)")
@@ -57,7 +57,7 @@ ggsave(here::here("plots", "first_weight_plot_WB.jpg"), first_weight_plot, width
 ggsave(here::here("plots", "bias_plot_WB.jpg"), bias_wb_plot, width = 20, height = 10, units = "cm")
 
 ## SIMPLE BAYES ##
-simple_samples <- readRDS(here::here("data", "model_quality", "simple_samples.rds"))
+simple_samples <- readRDS(here::here("data", "simulated_samples", "simple_samples.rds"))
 simple_df <- read_csv(here::here("data", "simulated_data_simple.csv"))
 
 bias_sb_plot <- posterior_update_plot(simple_samples, param_true = simple_df$Bias[1], param_col = "Bias", "Bias (Simple Bayes)")
