@@ -50,23 +50,25 @@ simulate_bayes<- function(bias=0, weight_p, weight_g){
 
 
 # simulate the data (for one agent to do model quality checks)
-n_trials = 36
-weight_g = 0.8
-weight_f = 0.1
-bias = 0
+n_trials <- 36
+weight_g <- c(0.9, 0.5)
+weight_f <- c(0.1, 0.5)
+bias <- 0
+file_names <- c("simulated_data_weighted.csv", "simulated_data_simple.csv")
+set.seed(124)
 
-# initialize the data frame
-simulated_data <- data.frame(matrix(ncol=8, nrow=n_trials))
-colnames(simulated_data) <- c("Trials", "FirstRating", "GroupRating", "SecondRating", "Choice", "Bias", "Weight_first", "Weight_group")
+for (j in 1:2) {
+    # initialize the data frame
+    simulated_data <- data.frame(matrix(ncol=8, nrow=n_trials))
+    colnames(simulated_data) <- c("Trials", "FirstRating", "GroupRating", "SecondRating", "Choice", "Bias", "Weight_first", "Weight_group")
 
-print("Simulating and saving data...")
-# simulate the data
-for (i in 1:n_trials) {
-    result <- simulate_bayes(bias, weight_f, weight_g)
-    simulated_data[i,] <- c(i, result$FirstRating, result$GroupRating, result$SecondRating, result$Choice, result$Bias, weight_f, weight_g)
+    print("Simulating and saving data...")
+    # simulate the data
+    for (i in 1:n_trials) {
+        result <- simulate_bayes(bias, weight_f[j], weight_g[j])
+        simulated_data[i,] <- c(i, result$FirstRating, result$GroupRating, result$SecondRating, result$Choice, result$Bias, weight_f[j], weight_g[j])
+    }
+    # save 
+    save_filepath = here::here("data", file_names[j])
+    write.csv(simulated_data, save_filepath)
 }
-
-# save 
-save_filepath = here::here("data", "simulated_data_weighted.csv")
-write.csv(simulated_data, save_filepath)
-
