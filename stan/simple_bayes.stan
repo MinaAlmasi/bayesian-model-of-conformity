@@ -19,12 +19,20 @@ parameters {
 
 
 model {
+    // define variables
+    real Weight_first;
+    real Weight_group;
+
     // define priors 
     target += normal_lpdf(Bias | 0, 1);
 
+    // weights (fixed in SimpleBayes)
+    Weight_first = 0.5;
+    Weight_group = 0.5;
+
     // compute likelihood
     for (Trial in 1:Trials) {
-        target += bernoulli_logit_lpmf(Choice[Trial] | Bias + logit_scaled_FirstRating[Trial] + logit_scaled_GroupRating[Trial]);
+        target += bernoulli_logit_lpmf(Choice[Trial] | Bias + Weight_first * logit_scaled_FirstRating[Trial] + Weight_group * logit_scaled_GroupRating[Trial]);
         }
 }
 

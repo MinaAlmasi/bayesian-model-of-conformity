@@ -47,13 +47,13 @@ weighted_samples <- readRDS(here::here("data", "simulated_samples", "weighted_sa
 weighted_df <- read_csv(here::here("data", "simulated_data_weighted.csv"))
 
 group_weight_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Weight_group[1], param_col = "Weight_group", "Group Rating Weight (Weighted Bayes)")
-first_weight_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Weight_first[1], param_col = "Weight_first", "First Rating Weight (Weighted Bayes)")
+#first_weight_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Weight_first[1], param_col = "Weight_first", "First Rating Weight (Weighted Bayes)")
 bias_wb_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Bias[1], param_col = "Bias", "Bias (Weighted Bayes)")
 
 
 # save plot
 ggsave(here::here("plots", "group_weight_plot_WB.jpg"), group_weight_plot, width = 20, height = 10, units = "cm")
-ggsave(here::here("plots", "first_weight_plot_WB.jpg"), first_weight_plot, width = 20, height = 10, units = "cm")
+#ggsave(here::here("plots", "first_weight_plot_WB.jpg"), first_weight_plot, width = 20, height = 10, units = "cm")
 ggsave(here::here("plots", "bias_plot_WB.jpg"), bias_wb_plot, width = 20, height = 10, units = "cm")
 
 ## SIMPLE BAYES ##
