@@ -50,7 +50,7 @@ simulate_bayes<- function(bias=0, weight_p, weight_g){
 
 
 # simulate the data (for one agent to do model quality checks)
-n_trials <- 36
+n_trials <- 3000
 weight_g <- c(0.9, 0.5)
 weight_f <- c(0.1, 0.5)
 bias <- 0
