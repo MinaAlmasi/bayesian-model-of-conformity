@@ -33,9 +33,15 @@ weighted_df <- read_csv(here::here("data", "simulated_data_weighted.csv"))
 # fit 
 weighted_samples <- fit_model(weighted_df, weighted_stanpath)
 
+# save 
+weighted_samples$save_object(here::here("data", "model_quality", "weighted_samples.rds"))
+
 ## SIMPLE BAYES ## 
 simple_stanpath = here::here("stan", "simple_bayes.stan")
 simple_df <- read_csv(here::here("data", "simulated_data_simple.csv"))
 
 # fit
 simple_samples <- fit_model(simple_df, simple_stanpath)
+
+# save 
+simple_samples$save_object(here::here("data", "model_quality", "simple_samples.rds"))
