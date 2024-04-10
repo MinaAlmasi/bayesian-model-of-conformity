@@ -54,3 +54,6 @@ rsconnect/
 # stan folder - ign everything but the stan files (i.e., ign. C++ compiled files)
 stan/*
 !stan/*.stan
+
+# ign. big RDS files
+*.rds
