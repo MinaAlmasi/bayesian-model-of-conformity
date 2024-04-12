@@ -26,17 +26,6 @@ fit_model <- function(df, stan_filepath){
     return(samples)
 }
 
-convert_SecondRating <- function(df) {
-    # compute posterior 
-    second_rating_continuous <- df$SecondRating / 9
-    
-    # make a choice
-    df$Choice <- rbinom(length(second_rating_continuous), 1, second_rating_continuous)
-    df$ContinuousSecondRating <- second_rating_continuous
-
-    return(df)
-}
-
 ### SIMULATED DATA ###
 ## WEIGHTED BAYES ## 
 weighted_stanpath = here::here("stan", "weighted_bayes.stan")
@@ -61,14 +50,11 @@ simple_samples$save_object(here::here("data", "simulated_samples", "simple_sampl
 ### REAL DATA ###
 real_df <- read_csv(here::here("data", "sc_df_clean.csv"))
 
-# transform the second rating of the data
-real_df <- convert_SecondRating(real_df)
-
 # add trials
 real_df$Trials <- 1:nrow(real_df)
 
-# change all 0s in group rating col to 4.5 to avoid errors when taking the logit of (0). This way, when we take the logit of 4.5/9, we get 0
-real_df$GroupRating[real_df$GroupRating == 0] <- 4.5
+# remove all rows that have a group rating of 0 (these are the ones that were not rated by the group)
+real_df <- real_df %>% filter(GroupRating != 0)
 
 # fit weighted bayes
 weighted_samples_real <- fit_model(real_df, weighted_stanpath)
