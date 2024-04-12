@@ -1,6 +1,6 @@
 data {
     int<lower=0> Trials;
-    array[Trials] int Choice;
+    vector[Trials] SecondRating;
     vector[Trials] FirstRating; 
     vector[Trials] GroupRating;
 }
@@ -11,6 +11,10 @@ transformed data {
   // scale the ratings to be between 0 and 1
   logit_scaled_FirstRating = logit(FirstRating/9);
   logit_scaled_GroupRating = logit(GroupRating/9);
+  
+  // scale ratings to be between 0 and 7 
+  vector[Trials] SecondRatingZero;
+  SecondRatingZero = SecondRating - 1;
 }
 
 parameters {
@@ -32,7 +36,7 @@ model {
 
     // compute likelihood
     for (Trial in 1:Trials) {
-        target += bernoulli_logit_lpmf(Choice[Trial] | Bias + Weight_first * logit_scaled_FirstRating[Trial] + Weight_group * logit_scaled_GroupRating[Trial]);
+         target += binomial_logit_lpmf(SecondRatingZero[Trial] | 7, Bias + Weight_first * logit_scaled_FirstRating[Trial] + Weight_group * logit_scaled_GroupRating[Trial]);
         }
 }
 
@@ -46,6 +50,6 @@ generated quantities{
   
     // save likelihood
     for (Trial in 1:Trials){
-        log_lik[Trial] = bernoulli_logit_lpmf(Choice[Trial] | Bias + logit_scaled_FirstRating[Trial] + logit_scaled_GroupRating[Trial]);
+        log_lik[Trial] = binomial_logit_lpmf(SecondRatingZero[Trial] | 7, Bias + Weight_first * logit_scaled_FirstRating[Trial] + Weight_group * logit_scaled_GroupRating[Trial]);
 }
 }

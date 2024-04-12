@@ -5,7 +5,7 @@ fit_model <- function(df, stan_filepath){
     data <- list("Trials" = length(df$Trials), 
                 "FirstRating" = df$FirstRating,
                 "GroupRating" = df$GroupRating,
-                "Choice" = df$Choice
+                "SecondRating" = df$SecondRating
                  )
     
     # compile the model
