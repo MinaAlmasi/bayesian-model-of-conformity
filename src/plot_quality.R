@@ -16,8 +16,8 @@ posterior_update_plot <- function(posterior_samples, param_true, param_col, titl
       # prior 
       geom_density(aes(!!sym(paste0(param_col, "_prior")), fill = "Prior"), alpha = 0.4) +
       
-      # true value
-      geom_vline(aes(xintercept = param_true, color = "True Value"), linetype = "dashed") +
+      # plot true value as a vertical line if it is not NA
+      {if(!is.na(param_true))geom_vline(aes(xintercept = param_true, color = "True Value"), linetype = "dashed")} +
       
       xlab(param_col) +
       ylab("Posterior Density") +
@@ -41,19 +41,17 @@ posterior_update_plot <- function(posterior_samples, param_true, param_col, titl
 
     return(plot)
 }
-
+### SIMULATED DATA ###
 ## WEIGHTED BAYES ##
 weighted_samples <- readRDS(here::here("data", "simulated_samples", "weighted_samples.rds"))
 weighted_df <- read_csv(here::here("data", "simulated_data_weighted.csv"))
 
 group_weight_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Weight_group[1], param_col = "Weight_group", "Group Rating Weight (Weighted Bayes)")
-#first_weight_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Weight_first[1], param_col = "Weight_first", "First Rating Weight (Weighted Bayes)")
 bias_wb_plot <- posterior_update_plot(weighted_samples, param_true = weighted_df$Bias[1], param_col = "Bias", "Bias (Weighted Bayes)")
 
 
 # save plot
 ggsave(here::here("plots", "group_weight_plot_WB.jpg"), group_weight_plot, width = 20, height = 10, units = "cm")
-#ggsave(here::here("plots", "first_weight_plot_WB.jpg"), first_weight_plot, width = 20, height = 10, units = "cm")
 ggsave(here::here("plots", "bias_plot_WB.jpg"), bias_wb_plot, width = 20, height = 10, units = "cm")
 
 ## SIMPLE BAYES ##
@@ -64,3 +62,18 @@ bias_sb_plot <- posterior_update_plot(simple_samples, param_true = simple_df$Bia
 
 # save plot
 ggsave(here::here("plots", "bias_plot_SB.jpg"), bias_sb_plot, width = 20, height = 10, units = "cm")
+
+### REAL DATA ###
+## WEIGHTED BAYES ##
+weighted_samples_real <- readRDS(here::here("data", "real_samples", "weighted_samples_real.rds"))
+group_weight_plot_real <- posterior_update_plot(weighted_samples_real, param_true = NA, param_col = "Weight_group", "Group Rating Weight (Weighted Bayes)")
+
+# save plot
+ggsave(here::here("plots", "group_weight_plot_WB_real.jpg"), group_weight_plot_real, width = 20, height = 10, units = "cm")
+
+## SIMPLE BAYES ##
+simple_samples_real <- readRDS(here::here("data", "real_samples", "simple_samples_real.rds"))
+bias_sb_plot_real <- posterior_update_plot(simple_samples_real, param_true = NA, param_col = "Bias", "Bias (Simple Bayes)")
+
+# save plot
+ggsave(here::here("plots", "bias_plot_SB_real.jpg"), bias_sb_plot_real, width = 20, height = 10, units = "cm")

@@ -15,13 +15,10 @@ Bayes_Agent <- function(bias, rating_participant, rating_group, weight_p, weight
     # compute posterior 
     second_rating_continuous <- brms::inv_logit_scaled(bias + logit_participant * weight_p + logit_group * weight_g)
     
-    # put onto the right scale
-    second_rating_discrete <- round(second_rating_continuous * 9, 0)
-    
-    # make a choice
-    choice <- rbinom(1, 1, second_rating_continuous)
+    # make ratings (we add 1 to make it between 1 and 8)
+    SecondRating <- rbinom(1, 7, second_rating_continuous) + 1
 
-    return(list(second_rating_discrete = second_rating_discrete, choice = choice))
+    return(SecondRating)
 }
 
 simulate_bayes<- function(bias=0, weight_p, weight_g){
@@ -41,11 +38,9 @@ simulate_bayes<- function(bias=0, weight_p, weight_g){
     }
 
     # calculate the second rating (for the participant)
-    result <- Bayes_Agent(bias, rating_participant, rating_group, weight_p, weight_g)
-    second_rating <- result$second_rating_discrete
-    choice <- result$choice
+    SecondRating <- Bayes_Agent(bias, rating_participant, rating_group, weight_p, weight_g)
 
-    return(list(FirstRating = rating_participant, GroupRating = rating_group, SecondRating = second_rating, Choice=choice, Bias=bias))
+    return(list(FirstRating = rating_participant, GroupRating = rating_group, SecondRating = SecondRating, Bias=bias))
 }
 
 
@@ -59,14 +54,14 @@ set.seed(124)
 
 for (j in 1:2) {
     # initialize the data frame
-    simulated_data <- data.frame(matrix(ncol=8, nrow=n_trials))
-    colnames(simulated_data) <- c("Trials", "FirstRating", "GroupRating", "SecondRating", "Choice", "Bias", "Weight_first", "Weight_group")
+    simulated_data <- data.frame(matrix(ncol=7, nrow=n_trials))
+    colnames(simulated_data) <- c("Trials", "FirstRating", "GroupRating", "SecondRating", "Bias", "Weight_first", "Weight_group")
 
     print("Simulating and saving data...")
     # simulate the data
     for (i in 1:n_trials) {
         result <- simulate_bayes(bias, weight_f[j], weight_g[j])
-        simulated_data[i,] <- c(i, result$FirstRating, result$GroupRating, result$SecondRating, result$Choice, result$Bias, weight_f[j], weight_g[j])
+        simulated_data[i,] <- c(i, result$FirstRating, result$GroupRating, result$SecondRating, result$Bias, weight_f[j], weight_g[j])
     }
     # save 
     save_filepath = here::here("data", file_names[j])
