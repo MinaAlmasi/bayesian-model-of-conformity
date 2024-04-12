@@ -36,7 +36,7 @@ model {
 
     // compute likelihood
     Weight_first = 1 - Weight_group;
-    target += binomial_logit_lpmf(SecondRatingZero| 7, Bias + Weight_first * logit_scaled_FirstRating + Weight_group * logit_scaled_GroupRating);
+    target += binomial_logit_lpmf(SecondRatingZero | 7, Bias + Weight_first * logit_scaled_FirstRating + Weight_group * logit_scaled_GroupRating);
 }
 
 generated quantities{
@@ -53,6 +53,6 @@ generated quantities{
     // save likelihood
     Weight_first = 1 - Weight_group;
     for (Trial in 1:Trials){
-        log_lik[Trial] = binomial_logit_lpmf(SecondRatingZero | 7, Bias + Weight_first * logit_scaled_FirstRating[Trial] + Weight_group * logit_scaled_GroupRating[Trial]);
+        log_lik[Trial] = binomial_logit_lpmf(SecondRatingZero[Trial] | 7, Bias + Weight_first * logit_scaled_FirstRating[Trial] + Weight_group * logit_scaled_GroupRating[Trial]);
     }
 }
