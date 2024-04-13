@@ -96,11 +96,13 @@ weighted_samples_real <- readRDS(here::here("data", "real_samples", "weighted_sa
 group_weight_plot_real <- posterior_update_plot(weighted_samples_real, param_true = NA, param_col = "Weight_group", "Group Rating Weight (Weighted Bayes)")
 bias_plot_real <- posterior_update_plot(weighted_samples_real, param_true = NA, param_col = "Bias", "Bias (Weighted Bayes)")
 group_weight_trace_wb_real <- draw_trace_plots(weighted_samples_real, "Weight_group", "Group Rating Weight (Weighted Bayes)")
+bias_trace_wb_real <- draw_trace_plots(weighted_samples_real, "Bias", "Bias (Weighted Bayes)")
 
 # save plot
 ggsave(here::here("plots", "group_weight_plot_WB_real.jpg"), group_weight_plot_real, width = 20, height = 10, units = "cm")
 ggsave(here::here("plots", "bias_plot_WB_real.jpg"), bias_plot_real, width = 20, height = 10, units = "cm")
 ggsave(here::here("plots", "group_weight_trace_WB_real.jpg"), group_weight_trace_wb_real, width = 20, height = 10, units = "cm")
+ggsave(here::here("plots", "bias_trace_WB_real.jpg"), bias_trace_wb_real, width = 20, height = 10, units = "cm")
 
 ## SIMPLE BAYES ##
 simple_samples_real <- readRDS(here::here("data", "real_samples", "simple_samples_real.rds"))
