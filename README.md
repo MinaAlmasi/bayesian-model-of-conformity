@@ -1,4 +1,4 @@
-# Bayesian Models of Cognition for Social Confonformity (Portfolio 3, ACM)
+# Bayesian Models of Cognition for Social Conformity (Portfolio 3, ACM)
 This repository contains the code for the `portfolio 3 assignment` in the course `Advanced Cognitive Modeling` at the Cognitive Science MSc. (F24).
 
 Code was produced jointly by the group members:
