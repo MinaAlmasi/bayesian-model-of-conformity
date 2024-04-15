@@ -1,4 +1,4 @@
-pacman::p_load(here, loo)
+pacman::p_load(here, loo, tibble)
 
 # read in data
 weighted_samples <- readRDS(here::here("data", "real_samples", "weighted_samples_real.rds"))
